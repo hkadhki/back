@@ -1,0 +1,12 @@
+version: "3.1"
+
+volumes:
+  back:
+
+services:
+  Back:
+    image: back:latest
+    container_name: "back"
+    build: .
+    ports:
+      - "8080:8080"
