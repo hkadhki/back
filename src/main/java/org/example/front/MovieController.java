@@ -60,7 +60,7 @@ public class MovieController {
         return ResponseEntity.ok("ok");
     }
 
-    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/update")
     public ResponseEntity<String> updateFilm(
             @RequestParam("id") int id,
             @RequestParam("title") String title,
@@ -70,12 +70,20 @@ public class MovieController {
             @RequestParam("isFavorite") boolean isFavorite,
             @RequestPart("image") MultipartFile image
     ) throws IOException {
-        Movie movie = new Movie(id, title, duration, type, description, isFavorite, image);
-        movies.forEach(m -> {
+        for (Movie m : movies) {
             if (m.getId() == id) {
-                m = movie;
+                m.setTitle(title);
+                m.setDescription(description);
+                m.setType(type);
+                m.setDuration(duration);
+                m.setImageBytes(image.getBytes());
             }
-        });
+        }
+        for (Movie m : movies) {
+            System.out.println(m.getTitle());
+        }
+
+
         return ResponseEntity.ok("ok");
     }
 
